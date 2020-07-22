@@ -18,7 +18,7 @@ RUN cd /tmp && \
   apk del \
   curl \
   unzip && \
-  apk --no-cacge upgrade
+  apk --no-cache upgrade
 
 # Define mountable directories.
 VOLUME ["/config"]
