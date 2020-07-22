@@ -1,9 +1,5 @@
 FROM alpine:latest
 
-# Define environment variables
-ARG RCLONE_VERSION=current
-ARG ARCH=amd64
-
 RUN apk --no-cache add \
   ca-certificates \
   curl \
@@ -11,18 +7,14 @@ RUN apk --no-cache add \
   unzip
     
 RUN cd /tmp && \
-  wget https://downloads.rclone.org/rclone-${RCLONE_VERSION}-linux-${ARCH}.zip && \
-  unzip /tmp/rclone-${RCLONE_VERSION}-linux-${ARCH}.zip && \
-  mv -v /tmp/rclone-*-linux-${ARCH}/rclone /usr/bin && \
-  rm -r /tmp/rclone* && \
-  apk del \
-  curl \
-  unzip
-
+  curl https://rclone.org/install.sh | tac | tac | bash \
+  apk del curl unzip \
+  apk --nocache upgrade
+  
 # Define mountable directories.
 VOLUME ["/config"]
 VOLUME ["/media"]
 
 EXPOSE 5572/tcp
 
-ENTRYPOINT ["sh", "-c", "/usr/bin/rclone rcd --rc-web-gui --config=/config/rclone.conf --rc-user=${RCUSER} --rc-pass=${RCPASS} --rc-addr=0.0.0.0:5572 --rc-serve"]
+ENTRYPOINT ["sh", "-c", "/usr/bin/rclone rcd --rc-web-gui --config=/config/rclone.conf --rc-addr=0.0.0.0:5572 --rc-serve"]
