@@ -7,8 +7,10 @@ RUN apk --no-cache add \
   unzip
     
 RUN cd /tmp && \
-  curl https://rclone.org/install.sh | tac | tac | bash \
-  apk del curl unzip \
+  curl https://rclone.org/install.sh | tac | tac | bash && \
+  apk del \
+  curl \
+  unzip && \
   apk --nocache upgrade
   
 # Define mountable directories.
