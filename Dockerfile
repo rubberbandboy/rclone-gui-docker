@@ -26,4 +26,4 @@ VOLUME ["/media"]
 
 EXPOSE 5572/tcp
 
-ENTRYPOINT ["sh", "-c", "/usr/bin/rclone rcd --rc-web-gui --config=/config/rclone.conf --rc-addr=0.0.0.0:5572 --rc-serve"]
+ENTRYPOINT ["sh", "-c", "/usr/bin/rclone rcd --rc-web-gui --config=/config/rclone.conf --rc-user=${RCUSER} --rc-pass=${RCPASS} --rc-addr=0.0.0.0:5572 --rc-serve"]
